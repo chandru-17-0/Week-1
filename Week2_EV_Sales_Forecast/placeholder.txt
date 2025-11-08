@@ -1,0 +1,16 @@
+import pandas as pd
+
+df = pd.read_csv("Electric_Vehicle_Population_Data.csv")
+
+# Handle messy column names caused by spaces/newlines
+df.columns = df.columns.str.strip()
+
+# Group by Model Year to extract yearly EV sales count
+ev_sales = df.groupby("Model Year").size().reset_index(name="Sales")
+ev_sales.columns = ["Year", "Sales"]
+
+# Keep only the EV adoption years
+ev_sales = ev_sales[ev_sales["Year"] >= 2015]
+
+# SHOW the output table
+ev_sales
